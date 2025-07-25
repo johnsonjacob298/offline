@@ -1,0 +1,6 @@
+name = "byteseeker-offline"
+main = "src/index.js"
+compatibility_date = "2024-07-24"
+
+[triggers]
+routes = ["byteseeker.cc/*"]
