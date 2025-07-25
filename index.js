@@ -42,8 +42,8 @@ export default {
           </style>
         </head>
         <body>
-          <h1>ByteSeeker is Offline</h1>
-          <p>This website is self-hosted on a Raspberry Pi,<br>which is currently offline.</p>
+          <h1>The ByteSeeker Website is Offline</h1>
+          <p>This website is self-hosted on a Raspberry Pi,<br>which is currently offline.<br>Please try again later.</p>
         </body>
         </html>
       `, {
