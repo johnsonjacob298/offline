@@ -1,5 +1,5 @@
 name = "byteseeker-offline"
-main = "/index.js"
+main = "index.js"
 compatibility_date = "2024-07-24"
 
 [triggers]
