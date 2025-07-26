@@ -63,7 +63,9 @@ export default {
           7/26/25 - The file system I was using for the raspberry pi failed, the website should<br>
           be back by 7/28/25 (Monday). I'm sorry for any inconvenience caused.</p>
           <hr>
-          <h1><a href="https://offline.byteseeker.cc">Offline Links</a></h1>
+          <h1>Offline Links</h1><br>
+          <li><h2><a href="#">Paypal Donations</a></h2></li>
+          <li><h2><a href="#">Cashapp Donations</a></h2></li>
         </body>
         </html>
       `, {
