@@ -63,7 +63,7 @@ export default {
             This website is self-hosted on a Raspberry Pi,<br>
             which is currently offline or unavailable. Please try again later.<br><br>
             If this site is not back up within 48 hours, please email the owner at
-            <email>jj@byteseeker.cc</email>
+            <a href="mailto:jj@byteseeker.cc">jj@byteseeker.cc</a>
           </p>
           <div class="timestamp">Offline as of ${timestamp}</div>
         </body>
