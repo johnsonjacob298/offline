@@ -54,7 +54,7 @@ export default {
         <body>
           <h1>The ByteSeeker Website is Offline</h1>
           <p>This website is self-hosted on a Raspberry Pi,<br>which is currently offline or unavailable.</p>
-          <p><strong>Offline since:</strong> ${new Date(offlineSince).toLocaleString()}</p>
+          <p><strong>Offline since:</strong> ${new Date(offlineSince).toLocaleString('en-US', { timeZoneName: 'short' })}</p>
           <p>If this site is not back up within 48 hours, please email the owner at <email>jj@byteseeker.cc</email></p>
         </body>
         </html>
