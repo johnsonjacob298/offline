@@ -1,54 +1,39 @@
 export default {
   async fetch(request, env, ctx) {
-    const upstream = 'https://byteseeker.cc';
-
     try {
-      // Try loading from the actual site (hosted on your Pi)
-      const url = new URL(request.url);
-      const response = await fetch(upstream + url.pathname);
-
-      if (response.ok) {
-        return response;
-      } else {
-        return offlineFallback();
-      }
+      // Attempt to fetch from the origin (your Pi)
+      const response = await fetch(request);
+      
+      // If origin returns successfully, pass it through
+      return response;
     } catch (err) {
-      return offlineFallback();
-    }
-
-    function offlineFallback() {
+      // If origin is down or unreachable, show the offline message
       return new Response(`
         <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <title>ByteSeeker Offline</title>
-          <style>
-            body {
-              background: #121212;
-              color: #f0f0f0;
-              font-family: sans-serif;
-              text-align: center;
-              padding: 80px;
-            }
-            h1 {
-              font-size: 3em;
-              margin-bottom: 0.5em;
-            }
-            p {
-              font-size: 1.4em;
-              color: #ccc;
-            }
-          </style>
-        </head>
-        <body>
-          <h1>The ByteSeeker Website is Offline</h1>
-          <p>This website is self-hosted on a Raspberry Pi,<br>which is currently offline. Please try again later.</p>
-        </body>
+        <html>
+          <head>
+            <title>ByteSeeker.cc is offline</title>
+            <style>
+              body {
+                background-color: #111;
+                color: #fff;
+                font-family: sans-serif;
+                text-align: center;
+                padding: 50px;
+              }
+              h1 {
+                font-size: 2em;
+              }
+            </style>
+          </head>
+          <body>
+            <h1>ByteSeeker.cc is currently offline</h1>
+            <p>This site is self-hosted and the Raspberry Pi is currently turned off.</p>
+          </body>
         </html>
       `, {
         headers: { 'Content-Type': 'text/html' },
-        status: 200
+        status: 503
       });
     }
   }
