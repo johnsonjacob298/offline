@@ -7,4 +7,4 @@ routes = ["*byteseeker.cc/*"]
 
 [[kv_namespaces]]
 binding = "OFFLINE_KV"
-id = "e9b5a04660c64349b8c189943adbb2aa"
+id = "399f5e8453ee467da317db614bd21c68"
