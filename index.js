@@ -3,7 +3,6 @@ export default {
     const upstream = 'https://byteseeker.cc';
 
     try {
-      // Try loading from the actual site (hosted on your Pi)
       const url = new URL(request.url);
       const response = await fetch(upstream + url.pathname);
 
@@ -17,6 +16,18 @@ export default {
     }
 
     function offlineFallback() {
+      const now = new Date();
+      const timestamp = now.toLocaleString("en-US", {
+        timeZone: "America/New_York", // Adjust this if needed
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true
+      });
+
       return new Response(`
         <!DOCTYPE html>
         <html lang="en">
@@ -39,11 +50,22 @@ export default {
               font-size: 1.4em;
               color: #ccc;
             }
+            .timestamp {
+              margin-top: 2em;
+              font-size: 1em;
+              color: #888;
+            }
           </style>
         </head>
         <body>
           <h1>The ByteSeeker Website is Offline</h1>
-          <p>This website is self-hosted on a Raspberry Pi,<br>which is currently offline.<br>Please try again later.</p>
+          <p>
+            This website is self-hosted on a Raspberry Pi,<br>
+            which is currently offline or unavailable. Please try again later.<br><br>
+            If this site is not back up within 48 hours, please email the owner at
+            <email>jj@byteseeker.cc</email>
+          </p>
+          <div class="timestamp">Offline as of ${timestamp}</div>
         </body>
         </html>
       `, {
