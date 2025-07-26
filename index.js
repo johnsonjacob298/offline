@@ -1,32 +1,31 @@
 export default {
   async fetch(request, env, ctx) {
     const upstream = 'https://byteseeker.cc';
+    const url = new URL(request.url);
 
     try {
-      const url = new URL(request.url);
-      const response = await fetch(upstream + url.pathname);
+      // Try to fetch from your Pi
+      const response = await fetch(upstream + url.pathname, { cf: { cacheEverything: false } });
 
       if (response.ok) {
+        // If Pi is online, clear the KV timestamp (if any)
+        await env.OFFLINE_KV.delete("offline_since");
         return response;
       } else {
-        return offlineFallback();
+        return await offlineFallback(env);
       }
     } catch (err) {
-      return offlineFallback();
+      return await offlineFallback(env);
     }
 
-    function offlineFallback() {
-      const now = new Date();
-      const timestamp = now.toLocaleString("en-US", {
-        timeZone: "America/New_York", // Adjust this if needed
-        weekday: "short",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true
-      });
+    async function offlineFallback(env) {
+      let offlineSince = await env.OFFLINE_KV.get("offline_since");
+
+      if (!offlineSince) {
+        // First time Pi is offline — save timestamp
+        offlineSince = new Date().toISOString();
+        await env.OFFLINE_KV.put("offline_since", offlineSince);
+      }
 
       return new Response(`
         <!DOCTYPE html>
@@ -50,22 +49,13 @@ export default {
               font-size: 1.4em;
               color: #ccc;
             }
-            .timestamp {
-              margin-top: 2em;
-              font-size: 1em;
-              color: #888;
-            }
           </style>
         </head>
         <body>
           <h1>The ByteSeeker Website is Offline</h1>
-          <p>
-            This website is self-hosted on a Raspberry Pi,<br>
-            which is currently offline or unavailable. Please try again later.<br><br>
-            If this site is not back up within 48 hours, please email the owner at
-            <a href="mailto:jj@byteseeker.cc">jj@byteseeker.cc</a>
-          </p>
-          <div class="timestamp">Offline as of ${timestamp}</div>
+          <p>This website is self-hosted on a Raspberry Pi,<br>which is currently offline or unavailable.</p>
+          <p><strong>Offline since:</strong> ${new Date(offlineSince).toLocaleString()}</p>
+          <p>If this site is not back up within 48 hours, please email the owner at <email>jj@byteseeker.cc</email></p>
         </body>
         </html>
       `, {
