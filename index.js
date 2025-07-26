@@ -1,39 +1,51 @@
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request) {
     try {
-      // Attempt to fetch from the origin (your Pi)
-      const response = await fetch(request);
-      
-      // If origin returns successfully, pass it through
+      // Attempt to fetch from your origin (Raspberry Pi)
+      const response = await fetch(request, { cf: { cacheEverything: false } });
+
+      // If the origin returns successfully, just return it
       return response;
     } catch (err) {
-      // If origin is down or unreachable, show the offline message
+      // If the origin is offline/unreachable, show offline message
       return new Response(`
         <!DOCTYPE html>
         <html>
           <head>
-            <title>ByteSeeker.cc is offline</title>
+            <title>ByteSeeker.cc is Offline</title>
             <style>
               body {
                 background-color: #111;
                 color: #fff;
                 font-family: sans-serif;
-                text-align: center;
-                padding: 50px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
               }
               h1 {
                 font-size: 2em;
+              }
+              p {
+                font-size: 1.2em;
+                max-width: 600px;
+                text-align: center;
               }
             </style>
           </head>
           <body>
             <h1>ByteSeeker.cc is currently offline</h1>
-            <p>This site is self-hosted and the Raspberry Pi is currently turned off.</p>
+            <p>This site is self-hosted. The Raspberry Pi is currently offline or unreachable.</p>
           </body>
         </html>
       `, {
-        headers: { 'Content-Type': 'text/html' },
-        status: 503
+        status: 503,
+        headers: {
+          "Content-Type": "text/html",
+          "X-Offline": "true"
+        }
       });
     }
   }
