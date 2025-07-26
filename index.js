@@ -62,6 +62,8 @@ export default {
           <br><br>
           7/26/25 - The file system I was using for the raspberry pi failed, the website should<br>
           be back by 7/28/25 (Monday). I'm sorry for any inconvenience caused.</p>
+          <hr>
+          <a href="https://offline.byteseeker.cc">Offline Links</a>
         </body>
         </html>
       `, {
