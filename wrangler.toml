@@ -4,3 +4,7 @@ compatibility_date = "2024-07-24"
 
 [triggers]
 routes = ["*byteseeker.cc/*"]
+
+[[kv_namespaces]]
+binding = "OFFLINE_KV"
+id = "e9b5a04660c64349b8c189943adbb2aa"
