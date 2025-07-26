@@ -58,7 +58,7 @@ export default {
   timeZone: 'America/New_York',
   timeZoneName: 'short'
 })}</p>
-          <p>If this site is not back up within 48 hours, please email the owner at <email>jj@byteseeker.cc</email></p>
+          <p>If this site is not back up within 48 hours, please email the owner at <a href="mailto:jj@byteseeker.cc">jj@byteseeker.cc</a></p>
         </body>
         </html>
       `, {
