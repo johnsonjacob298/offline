@@ -1,47 +1,55 @@
 export default {
   async fetch(request, env, ctx) {
+    const upstream = 'https://byteseeker.cc';
+
     try {
-      // Try to fetch the real site
-      const response = await fetch(request);
-      return response;
+      // Try loading from the actual site (hosted on your Pi)
+      const url = new URL(request.url);
+      const response = await fetch(upstream + url.pathname);
+
+      if (response.ok) {
+        return response;
+      } else {
+        return offlineFallback();
+      }
     } catch (err) {
-      // If it fails, show the offline fallback page
+      return offlineFallback();
+    }
+
+    function offlineFallback() {
       return new Response(`
         <!DOCTYPE html>
         <html lang="en">
         <head>
-          <meta charset="UTF-8">
+          <meta charset="UTF-8" />
           <title>ByteSeeker Offline</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1">
           <style>
             body {
-              background: #111;
-              color: #f1f1f1;
+              background: #121212;
+              color: #f0f0f0;
               font-family: sans-serif;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              height: 100vh;
-              margin: 0;
               text-align: center;
-              padding: 1em;
+              padding: 80px;
+            }
+            h1 {
+              font-size: 3em;
+              margin-bottom: 0.5em;
+            }
+            p {
+              font-size: 1.4em;
+              color: #ccc;
             }
           </style>
         </head>
         <body>
-          <main>
-            <h1>ByteSeeker is Offline</h1>
-            <p>This site is self-hosted and the Raspberry Pi is currently turned off or unreachable.</p>
-          </main>
+          <h1>The ByteSeeker Website is Offline</h1>
+          <p>This website is self-hosted on a Raspberry Pi,<br>which is currently offline.<br>Please try again later.</p>
         </body>
         </html>
       `, {
-        status: 200,
-        headers: {
-          'Content-Type': 'text/html',
-          'Cache-Control': 'no-store',
-        }
+        headers: { 'Content-Type': 'text/html' },
+        status: 200
       });
     }
   }
-};
+}
